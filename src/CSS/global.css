@@ -1,0 +1,120 @@
+* {
+    list-style: none;
+    font-family: 'Ubuntu Condensed';
+    box-sizing: border-box;
+}
+
+.content {
+    padding: 1rem;
+    margin-top: -10px;
+    background-color: #fff;
+}
+
+.pokemons {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.pokemon {
+    margin: .5rem; 
+    padding: 1rem;  
+    color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+
+.content ol.pokemons .detail{
+    position: relative;
+}
+
+.pokemon .detail {
+    display: flex;
+    flex-direction: row;
+}
+
+.pokemon .detail .pokemon-img {
+    max-width: 100%;
+    height: 100px;
+    width: 100px;
+    position: relative;
+    left: -5px;
+    top: 11px;
+    z-index: 2;
+}
+
+.pokemon .logoPokebola {
+    position: absolute;
+    top: -30px;
+    left: calc(100% + -72px);
+    transform: rotate(15deg);
+    opacity: .35;
+    z-index: 1;
+    max-width: 200%;
+    width: 110px;
+}
+
+.pokemon .numeros {
+    text-align: right;
+    color: rgba(245, 245, 245, 0.907);
+    opacity: .86;
+}
+
+.pokemon .tipos {
+    margin: 0;
+    padding: 0;   
+}
+
+.tipo1 {
+    margin-top: 1.5px;
+}
+
+.tipo1, .tipo2 {
+    border-radius: 5px;
+    margin-bottom: 2.5px;
+    background-color: rgba(245, 245, 245, 0.356);
+    text-align: center;
+    font-family: 'Signika Negative';
+    font-size: 14px;
+}
+
+.menuPoke {
+    width: 25px;
+    margin-left: -2px;
+    margin-right: -2px;
+    bottom: -2px;
+    transform: rotate(90deg);
+}
+
+.inputDePesquisa {
+    height: 120%;
+    width: 45%;
+    margin-right: 0.4rem;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+.botaoPergunta {
+    background-color: #d31d1de7;
+    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.titulo2 button {
+    padding: 8px;
+    font-size: 12px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 1rem;
+    border-color: none;
+    background: none;
+    margin-top: -3%;
+}
+  
+.titulo2 .active {
+    background-color: #d31d1de7;
+    color: white;
+}
+  
