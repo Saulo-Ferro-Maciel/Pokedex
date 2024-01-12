@@ -38,7 +38,7 @@ function pokemonNoHTML(pokemon) {
 
     let backgroundColorStyle = corBackGround(type1);
 
-    return `<li class="pokemon" style="${backgroundColorStyle}">
+    return `<li class="pokemon" style="${backgroundColorStyle}; cursor:pointer;" onclick="showPopup(this)">
             <span class="numeros">#${pokemon.id.toString().padStart(3, '0')}</span>
             <span class="nome" style="position: relative; z-index: 0;"><strong>${nomePokemon}</strong></span>
             <div class="detail">

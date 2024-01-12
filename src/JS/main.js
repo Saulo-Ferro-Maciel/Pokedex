@@ -32,11 +32,13 @@ function pesquisarPokemon() {
             inputPesquisa.value = valorPesquisa;
         } else {
             if (
-                valorPesquisa.length === 4 &&
+                valorPesquisa.length === 6 &&
                 valorPesquisa[0] === '0' &&
                 valorPesquisa[1] === '0' &&
                 valorPesquisa[2] === '0' &&
-                valorPesquisa[3] !== '0'
+                valorPesquisa[3] !== '0' &&
+                valorPesquisa[4] !== '0' &&
+                valorPesquisa[5] !== '0' 
             ) {
                 const urlPokeApi = `https://pokeapi.co/api/v2/pokemon/${valorPesquisa.toLowerCase()}`;
 
@@ -128,6 +130,92 @@ function verificarTeclaPressionada(event) {
     if (event.key === 'Enter') {
         pesquisarPokemon();
     }
+}
+
+function popUP(pokemonData) {
+    let imagemDoPokemon = '';
+    let nomePokemonAtualizado = pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1);
+    let type1 = pokemonData.types[0].type.name.charAt(0).toUpperCase() + pokemonData.types[0].type.name.slice(1);
+    let type2 = pokemonData.types.length > 1 ? pokemonData.types[1].type.name.charAt(0).toUpperCase() + pokemonData.types[1].type.name.slice(1) : '';
+    let tamanhoPokemon = (pokemonData.height / 10).toFixed(1);
+    let pesoPokemon = (pokemonData.weight / 10).toFixed(1);
+    let tamanhoIMG = '';
+    let valorSelecionadoArte = valorSelecionadoBotaoArte();
+
+    if (valorSelecionadoArte === 'cartoon') {
+        if (pokemonData.sprites.other.dream_world.front_default) {
+            imagemDoPokemon = pokemonData.sprites.other.dream_world.front_default;
+            tamanhoIMG = "80%";
+        } else {
+            imagemDoPokemon = pokemonData.sprites.other['official-artwork'].front_default;
+            tamanhoIMG = "70%";
+        }
+    } else {
+        if (valorSelecionadoArte === 'pixel') {
+            imagemDoPokemon = pokemonData.sprites.front_default;
+            tamanhoIMG = "120%";
+        }
+    }
+
+    let backgroundColorStyle = corBackGround(type1);
+
+    let additionalInfo = '';
+    if (pokemonData.description) {
+        additionalInfo = `<span class="descricaoPokemon" style="font-weight: bold;">${pokemonData.description}</span>`;
+    }
+
+    return `<div class="corpoPokemon" style="${backgroundColorStyle}; top: 0; border-radius: 0.3rem;">
+                <h2 class="nomePokemonPOPUP" style="margin: 0 auto; text-align: center; color: white; font-size: 35px;">
+                    ${nomePokemonAtualizado}
+                </h2>
+                <h3 class="numeros" style="margin: 0 auto; text-align: center; opacity: 0.45">#${pokemonData.id.toString().padStart(3, '0')}</h3>
+
+                <div class="infoAdicional" style="display: flex; flex-direction: column; align-items: flex-start; margin-right: 20px; color: white; padding: 1rem;">
+                    <span class="tipo1" style="text-transform: uppercase; font-weight: bold;">${type1}</span>
+                    ${type2 ? `<span class="tipo2" style="text-transform: uppercase; font-weight: bold;">${type2}</span>` : ''}
+                    <span class="tamanho" style="text-transform: uppercase; font-weight: bold;">Tamanho: ${tamanhoPokemon} m</span>
+                    <span class="peso" style="text-transform: uppercase; font-weight: bold;">Peso: ${pesoPokemon} kg</span>
+                    <span>${additionalInfo}</span>
+
+                </div>
+
+                <div style="display: flex; justify-content: center;">
+                    <img style="z-index: 2; width: ${tamanhoIMG};" src="${imagemDoPokemon}" alt="Imagem do Pokémon: ${nomePokemonAtualizado}">
+                </div>
+
+
+            </div>
+            <button onclick="hidePopup()" style="background:none; color: white; margin-top: 1rem; margin-left: auto; margin-right: auto; display: block;">
+                <i class="fas fa-times"></i>
+            </button>`;
+}
+    
+
+function showPopup(listItem) {
+    let nomePokemonElement = listItem.querySelector('.nome');
+    let nomePokemon = nomePokemonElement.textContent;
+
+    document.getElementById('overlay').style.opacity = "100%";
+    document.getElementById('overlay').style.display = 'flex';
+    document.getElementById('popUP').style.display = 'block';
+
+    let urlPokeApi = `https://pokeapi.co/api/v2/pokemon/${nomePokemon.toLowerCase()}`;
+    let popupContainer = document.getElementById('popUP');
+    popupContainer.innerHTML = ''; // Limpar o conteúdo anterior
+
+    fetch(urlPokeApi)
+        .then((response) => response.json())
+        .then((pokemonData) => {
+            popupContainer.innerHTML = popUP(pokemonData);
+        })
+        .catch((error) => console.log(error));
+}
+
+
+function hidePopup() {
+    document.getElementById('overlay').style.opacity = "0%";
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('popUP').style.display = 'none';
 }
 
 const inputPesquisa = document.querySelector('.inputDePesquisa');
